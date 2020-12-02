@@ -26,7 +26,7 @@ def variable_with_weight_decay(name, shape, wd=None):
 
     # He et al. 2015 - http://arxiv.org/abs/1502.01852
     stddev = np.sqrt(2.0 / fan_in)
-    initializer = tf.truncated_normal_initializer(stddev=stddev)
+    initializer = tf.compat.v1.truncated_normal_initializer(stddev=stddev)
 
     # # Xavier
     # initializer = tf.contrib.layers.xavier_initializer()
@@ -103,7 +103,7 @@ def avg_pool_1d(name, input_var, pool_size, stride, padding="SAME"):
 def fc(name, input_var, n_hiddens, bias=None, wd=None):
     with tf.compat.v1.variable_scope(name) as scope:
         # Get input dimension
-        input_dim = input_var.get_shape()[-1].value
+        input_dim = input_var.get_shape()[-1]
 
         # Trainable parameters
         weights = variable_with_weight_decay(

@@ -43,9 +43,9 @@ class DeepFeatureNet(object):
 
     def _conv1d_layer(self, input_var, filter_size, n_filters, stride, wd=0):
         input_shape = input_var.get_shape()
-        n_batches = input_shape[0].value
-        input_dims = input_shape[1].value
-        n_in_filters = input_shape[3].value
+        n_batches = input_shape[0]
+        input_dims = input_shape[1]
+        n_in_filters = input_shape[3]
         name = "l{}_conv".format(self.layer_idx)
         with tf.compat.v1.variable_scope(name) as scope:
             output = conv_1d(name="conv1d", input_var=input_var, filter_shape=[filter_size, 1, n_in_filters, n_filters], stride=stride, bias=None, wd=wd)
@@ -84,9 +84,11 @@ class DeepFeatureNet(object):
         if self.use_dropout:
             name = "l{}_dropout".format(self.layer_idx)
             if self.is_train:
-                network = tf.nn.dropout(network, keep_prob=0.5, name=name)
+                network = tf.compat.v1.nn.dropout(
+                    network, keep_prob=0.5, name=name)
             else:
-                network = tf.nn.dropout(network, keep_prob=1.0, name=name)
+                network = tf.compat.v1.nn.dropout(
+                    network, keep_prob=1.0, name=name)
             self.activations.append((name, network))
         self.layer_idx += 1
 
@@ -125,9 +127,11 @@ class DeepFeatureNet(object):
         if self.use_dropout:
             name = "l{}_dropout".format(self.layer_idx)
             if self.is_train:
-                network = tf.nn.dropout(network, keep_prob=0.5, name=name)
+                network = tf.compat.v1.nn.dropout(
+                    network, keep_prob=0.5, name=name)
             else:
-                network = tf.nn.dropout(network, keep_prob=1.0, name=name)
+                network = tf.compat.v1.nn.dropout(
+                    network, keep_prob=1.0, name=name)
             self.activations.append((name, network))
         self.layer_idx += 1
 
@@ -162,9 +166,11 @@ class DeepFeatureNet(object):
         if self.use_dropout:
             name = "l{}_dropout".format(self.layer_idx)
             if self.is_train:
-                network = tf.nn.dropout(network, keep_prob=0.5, name=name)
+                network = tf.compat.v1.nn.dropout(
+                    network, keep_prob=0.5, name=name)
             else:
-                network = tf.nn.dropout(network, keep_prob=1.0, name=name)
+                network = tf.compat.v1.nn.dropout(
+                    network, keep_prob=1.0, name=name)
             self.activations.append((name, network))
         self.layer_idx += 1
 
@@ -365,9 +371,11 @@ class DeepSleepNet(DeepFeatureNet):
         if self.use_dropout_sequence:
             name = "l{}_dropout".format(self.layer_idx)
             if self.is_train:
-                network = tf.nn.dropout(network, keep_prob=0.5, name=name)
+                network = tf.compat.v1.nn.dropout(
+                    network, keep_prob=0.5, name=name)
             else:
-                network = tf.nn.dropout(network, keep_prob=1.0, name=name)
+                network = tf.compat.v1.nn.dropout(
+                    network, keep_prob=1.0, name=name)
             self.activations.append((name, network))
         self.layer_idx += 1
 

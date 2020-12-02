@@ -11,22 +11,22 @@ from deepsleep.sleep_stage import (NUM_CLASSES,
                                    SAMPLING_RATE)
 
 
-FLAGS = tf.app.flags.FLAGS
+FLAGS = tf.compat.v1.flags.FLAGS
 
-tf.app.flags.DEFINE_string('data_dir', 'data',
+tf.compat.v1.flags.DEFINE_string('data_dir', 'data',
                            """Directory where to load training data.""")
-tf.app.flags.DEFINE_string('output_dir', 'output',
+tf.compat.v1.flags.DEFINE_string('output_dir', 'output',
                            """Directory where to save trained models """
                            """and outputs.""")
-tf.app.flags.DEFINE_integer('n_folds', 20,
+tf.compat.v1.flags.DEFINE_integer('n_folds', 20,
                            """Number of cross-validation folds.""")
-tf.app.flags.DEFINE_integer('fold_idx', 0,
+tf.compat.v1.flags.DEFINE_integer('fold_idx', 0,
                             """Index of cross-validation fold to train.""")
-tf.app.flags.DEFINE_integer('pretrain_epochs', 100,
+tf.compat.v1.flags.DEFINE_integer('pretrain_epochs', 100,
                             """Number of epochs for pretraining DeepFeatureNet.""")
-tf.app.flags.DEFINE_integer('finetune_epochs', 200,
+tf.compat.v1.flags.DEFINE_integer('finetune_epochs', 200,
                             """Number of epochs for fine-tuning DeepSleepNet.""")
-tf.app.flags.DEFINE_boolean('resume', False,
+tf.compat.v1.flags.DEFINE_boolean('resume', False,
                             """Whether to resume the training process.""")
 
 
@@ -78,9 +78,9 @@ def main(argv=None):
     # Output dir
     output_dir = os.path.join(FLAGS.output_dir, "fold{}".format(FLAGS.fold_idx))
     if not FLAGS.resume:
-        if tf.gfile.Exists(output_dir):
-            tf.gfile.DeleteRecursively(output_dir)
-        tf.gfile.MakeDirs(output_dir)
+        if tf.io.gfile.exists(output_dir):
+            tf.io.gfile.rmtree(output_dir)
+        tf.io.gfile.makedirs(output_dir)
 
     pretrained_model_path = pretrain(
         n_epochs=FLAGS.pretrain_epochs
